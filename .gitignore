@@ -1,0 +1,32 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Env
+.env
+
+# Data generada (no commitear)
+data/raw/
+data/processed/
+data/augmented/
+
+# Modelos entrenados
+*.h5
+*.keras
+*.pb
+saved_model/
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
