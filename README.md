@@ -42,6 +42,13 @@ POST /parse
     "NUMBER":       "4-56",
     "ZONE":         "Zona 1",
     "MUNICIPALITY": "Guatemala"
+  },
+  "geolocation": {
+    "lat": 14.6349,
+    "lon": -90.5069,
+    "precision": "exact",
+    "source": "nominatim",
+    "name": "3a Avenida 4-56 Zona 1, Guatemala"
   }
 }
 ```

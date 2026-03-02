@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import unicodedata
 
-
 # ---------------------------------------------------------------------------
 # Normalización: quita tildes y pasa a minúsculas para matching robusto
 # ---------------------------------------------------------------------------
@@ -238,6 +237,42 @@ ALDEAS: set[str] = {_norm(a) for a in _ALDEAS_RAW}
 
 
 # ---------------------------------------------------------------------------
+# Centroides aproximados para geolocalización (WGS84)
+# ---------------------------------------------------------------------------
+
+# Nota: coordenadas aproximadas a nivel departamental. Útiles para ubicar
+# en mapa cuando no se dispone de geocodificación exacta de calle/número.
+_DEPARTMENT_CENTROIDS_RAW: dict[str, tuple[float, float]] = {
+    "Guatemala": (14.6349, -90.5069),
+    "El Progreso": (14.8560, -90.0147),
+    "Sacatepéquez": (14.5611, -90.7342),
+    "Chimaltenango": (14.6611, -90.8192),
+    "Escuintla": (14.3022, -90.7869),
+    "Santa Rosa": (14.2769, -90.2983),
+    "Sololá": (14.7722, -91.1833),
+    "Totonicapán": (14.9119, -91.3611),
+    "Quetzaltenango": (14.8347, -91.5181),
+    "Suchitepéquez": (14.5342, -91.5033),
+    "Retalhuleu": (14.5361, -91.6778),
+    "San Marcos": (14.9642, -91.7956),
+    "Huehuetenango": (15.3197, -91.4711),
+    "Quiché": (15.0306, -91.1489),
+    "Baja Verapaz": (15.1031, -90.3186),
+    "Alta Verapaz": (15.4700, -90.3700),
+    "Petén": (16.9120, -90.2996),
+    "Izabal": (15.4977, -88.9854),
+    "Zacapa": (14.9722, -89.5306),
+    "Chiquimula": (14.8019, -89.5436),
+    "Jalapa": (14.6339, -89.9889),
+    "Jutiapa": (14.2906, -89.8950),
+}
+
+DEPARTMENT_CENTROIDS: dict[str, tuple[float, float]] = {
+    _norm(name): coords for name, coords in _DEPARTMENT_CENTROIDS_RAW.items()
+}
+
+
+# ---------------------------------------------------------------------------
 # API principal
 # ---------------------------------------------------------------------------
 
@@ -290,3 +325,8 @@ def get_geo_feature_vector(token: str) -> list[float]:
         float(feats["is_municipio"]),
         float(feats["is_aldea"]),
     ]
+
+
+def get_department_centroid(name: str) -> tuple[float, float] | None:
+    """Retorna el centroide del departamento si existe en el catálogo."""
+    return DEPARTMENT_CENTROIDS.get(_norm(name))
